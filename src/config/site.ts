@@ -46,3 +46,14 @@ export const originalShippingTiers = [
 
 /** Above this size, shipping is quoted personally (crating / freight). */
 export const quoteShippingAboveIn = 48;
+
+/**
+ * Countries we ship to outside the US (ISO codes). Stripe Checkout only
+ * accepts addresses in this list for international orders.
+ */
+export const internationalShippingCountries = [
+  "CA", "MX", "GB", "IE", "FR", "DE", "NL", "BE", "LU", "AT", "CH", "IT", "ES", "PT",
+  "DK", "SE", "NO", "FI", "IS", "PL", "CZ", "SK", "SI", "HR", "HU", "RO", "BG", "GR",
+  "EE", "LV", "LT", "MT", "CY", "AU", "NZ", "JP", "KR", "SG", "HK", "TW", "IL", "AE",
+  "ZA", "BR", "CL", "CO", "PR",
+] as const;

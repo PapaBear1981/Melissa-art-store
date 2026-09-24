@@ -7,7 +7,7 @@ import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
 import { apiVersion, dataset, projectId } from "./src/sanity/env";
-import { schemaTypes, singletonTypes } from "./src/sanity/schemaTypes";
+import { schemaTypes, singletonTypes, websiteCreatedTypes } from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
 
 export default defineConfig({
@@ -17,8 +17,9 @@ export default defineConfig({
   dataset,
   schema: {
     types: schemaTypes,
-    // Hide singletons from the "create new" menu.
-    templates: (templates) => templates.filter(({ schemaType }) => !singletonTypes.has(schemaType)),
+    // Hide singletons and website-created documents from the "create new" menu.
+    templates: (templates) =>
+      templates.filter(({ schemaType }) => !singletonTypes.has(schemaType) && !websiteCreatedTypes.has(schemaType)),
   },
   document: {
     actions: (actions, { schemaType }) =>

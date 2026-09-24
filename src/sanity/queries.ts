@@ -28,6 +28,10 @@ export const artworksQuery = defineQuery(`
   *[_type == "artwork" && defined(slug.current)] | order(year desc, _createdAt desc) { ${artworkFields} }
 `);
 
+export const artworksBySlugQuery = defineQuery(`
+  *[_type == "artwork" && slug.current in $slugs] { ${artworkFields} }
+`);
+
 export const collectionsQuery = defineQuery(`
   *[_type == "collection" && defined(slug.current)] | order(order asc, title asc) {
     "slug": slug.current,

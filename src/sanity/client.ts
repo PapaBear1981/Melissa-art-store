@@ -18,3 +18,8 @@ export function sanityFetch<T>(query: string, params: QueryParams = {}): Promise
     next: { revalidate: revalidateSeconds, tags: [SANITY_TAG] },
   });
 }
+
+/** Uncached read straight from the API, for checkout (prices and availability). */
+export function sanityFetchFresh<T>(query: string, params: QueryParams = {}): Promise<T> {
+  return client.withConfig({ useCdn: false }).fetch<T>(query, params, { cache: "no-store" });
+}

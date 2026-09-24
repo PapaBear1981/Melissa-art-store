@@ -8,6 +8,9 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem("artwork").title("Paintings"),
       S.documentTypeListItem("collection").title("Collections"),
       S.divider(),
+      S.documentTypeListItem("order").title("Orders"),
+      S.documentTypeListItem("commissionRequest").title("Commission requests"),
+      S.divider(),
       S.listItem()
         .title("About page")
         .id("aboutPage")

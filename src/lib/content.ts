@@ -1,7 +1,7 @@
 import "server-only";
 import { site } from "@/config/site";
-import { sanityFetch } from "@/sanity/client";
-import { aboutPageQuery, artworksQuery, collectionsQuery, siteSettingsQuery } from "@/sanity/queries";
+import { sanityFetch, sanityFetchFresh } from "@/sanity/client";
+import { aboutPageQuery, artworksBySlugQuery, artworksQuery, collectionsQuery, siteSettingsQuery } from "@/sanity/queries";
 import { placeholderFor } from "./placeholder";
 import { sampleArtworks, sampleCollections } from "./sample-data";
 import type { ArtImage, Artwork, Collection, OriginalStatus, SaleMode } from "./types";
@@ -81,6 +81,13 @@ function toArtwork(d: SanityArtwork): Artwork {
 export async function loadArtworks(): Promise<Artwork[]> {
   if (useSample) return sampleArtworks.filter((a) => !a.hidden);
   const docs = await sanityFetch<SanityArtwork[]>(artworksQuery);
+  return docs.map(toArtwork);
+}
+
+/** Up-to-the-second artwork data (no caching), used at checkout. */
+export async function loadArtworksFresh(slugs: string[]): Promise<Artwork[]> {
+  if (useSample) return sampleArtworks.filter((a) => slugs.includes(a.slug));
+  const docs = await sanityFetchFresh<SanityArtwork[]>(artworksBySlugQuery, { slugs });
   return docs.map(toArtwork);
 }
 

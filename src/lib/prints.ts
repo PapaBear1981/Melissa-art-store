@@ -13,6 +13,16 @@ export const printPartner = {
 
 export type PrintMaterial = "paper" | "canvas";
 
+/**
+ * What customers pay for print shipping, in cents: the first print at the
+ * full rate, each additional print at the "extra" rate. Estimates: adjust
+ * once real Prodigi shipping costs are known.
+ */
+export const printShipping: Record<PrintMaterial, { us: number; intl: number; usExtra: number; intlExtra: number }> = {
+  paper: { us: 900, intl: 1900, usExtra: 300, intlExtra: 600 },
+  canvas: { us: 1900, intl: 3900, usExtra: 900, intlExtra: 1900 },
+};
+
 export const printMaterials: Record<
   PrintMaterial,
   { label: string; description: string }
