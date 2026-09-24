@@ -109,7 +109,12 @@ After payment, Stripe calls `/api/stripe/webhook`, which:
 
 1. Create a Stripe account; stay in **Test mode**. Copy the `sk_test_…` secret key into `STRIPE_SECRET_KEY`.
 2. Create an Editor token in Sanity and set `SANITY_API_WRITE_TOKEN`, so the webhook can mark paintings sold.
-3. Webhook, deployed site: Stripe → Developers → Webhooks → **Add endpoint** `https://<site>/api/stripe/webhook`, events `checkout.session.completed` and `checkout.session.async_payment_succeeded`. Put its signing secret in `STRIPE_WEBHOOK_SECRET`.
+3. Webhook, deployed site. The signing secret only exists after you create the endpoint, and that needs the site's public address.
+   1. Open [dashboard.stripe.com/webhooks](https://dashboard.stripe.com/webhooks) (the **Webhooks** tab in Workbench).
+   2. **Create an event destination** → **Your account**.
+   3. Pick the events `checkout.session.completed` and `checkout.session.async_payment_succeeded`.
+   4. **Continue** → **Webhook endpoint** → Endpoint URL `https://<site>/api/stripe/webhook`.
+   5. On the endpoint's page, click **Reveal secret** and put the `whsec_…` value in `STRIPE_WEBHOOK_SECRET`.
 4. Webhook, local testing: install the Stripe CLI and run `stripe listen --forward-to localhost:3000/api/stripe/webhook`. Use the `whsec_…` it prints.
 5. Pay with test card `4242 4242 4242 4242`, any future expiry, any CVC.
 
