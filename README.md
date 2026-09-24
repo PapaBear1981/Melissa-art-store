@@ -128,7 +128,13 @@ Form emails have **Reply-To** set to the sender, so replying goes straight to th
 
 ## Deploying to Render
 
-`render.yaml` is a Render Blueprint. In Render, choose **New → Blueprint**, pick this repo, and set `NEXT_PUBLIC_SITE_URL` to the site's public URL. Render generates `SANITY_REVALIDATE_SECRET`; copy it into the Sanity webhook. The free plan sleeps when idle, so the first visit after a while is slow. That's fine for development.
+`render.yaml` is a Render Blueprint. Render gives the site its address (`https://<name>.onrender.com`) when the service is created, and the site picks it up automatically.
+
+1. In Render, choose **New → Blueprint** and pick this repo. Fill in the keys you already have (`STRIPE_SECRET_KEY`, `SANITY_API_WRITE_TOKEN`). The webhook secret and email keys can be added later.
+2. Once it's deployed, copy the site address from the top of the service page.
+3. Use that address to create the Stripe webhook and to add the Sanity CORS origin (see above). Then put the `whsec_…` secret into `STRIPE_WEBHOOK_SECRET` in the service's **Environment** tab. Saving redeploys the site.
+4. Render generates `SANITY_REVALIDATE_SECRET`; copy it into the Sanity webhook if you set one up.
+5. Later, when a custom domain is connected, set `NEXT_PUBLIC_SITE_URL` to it. The free plan sleeps when idle, so the first visit after a while is slow. That's fine for development.
 
 Nothing here is tied to one host, so the app can move to another Node host later.
 

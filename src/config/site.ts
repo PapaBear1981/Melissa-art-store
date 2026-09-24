@@ -7,7 +7,11 @@ export const site = {
   tagline: "Original paintings & fine art prints, full of color.",
   description:
     "Original paintings, fine art prints and custom commissions by Melissa. Shipped worldwide.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  // Render sets RENDER_EXTERNAL_URL automatically, so no setup is needed there.
+  url:
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    process.env.RENDER_EXTERNAL_URL ||
+    "http://localhost:3000",
   email: "hello@example.com",
   location: "Studio location, USA",
   social: {
