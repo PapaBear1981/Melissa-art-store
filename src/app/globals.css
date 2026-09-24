@@ -16,11 +16,54 @@
 
   --font-display: var(--font-fraunces), Georgia, serif;
   --font-sans: var(--font-manrope), system-ui, sans-serif;
+
+  --animate-painting-in: painting-in 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-rise-in: rise-in 0.8s ease-out both;
+  --animate-progress: progress linear both;
+
+  @keyframes painting-in {
+    from {
+      opacity: 0;
+      transform: translateX(60vw) rotate(8deg);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(1.25rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes progress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
 }
 
 body {
   background: var(--color-cream);
   color: var(--color-ink);
+}
+
+/* Pages marked data-fit-screen (the home page) fill exactly one screen, no scrolling. */
+body:has([data-fit-screen]) {
+  height: 100dvh;
+  overflow: hidden;
+}
+body:has([data-fit-screen]) #main {
+  display: flex;
+  min-height: 0;
 }
 
 ::selection {
