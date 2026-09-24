@@ -2,12 +2,20 @@ import "server-only";
 import { createClient, type QueryParams } from "next-sanity";
 import { apiVersion, dataset, projectId, revalidateSeconds } from "./env";
 
+/**
+ * The dataset is private (it holds orders and commission requests with
+ * customer details), so the site reads with a server-side token. A
+ * read-only "Viewer" token is enough; the Editor token also works.
+ */
+const token = process.env.SANITY_API_READ_TOKEN || process.env.SANITY_API_WRITE_TOKEN;
+
 export const client = createClient({
   projectId,
   dataset,
   apiVersion,
   useCdn: true,
   perspective: "published",
+  token,
 });
 
 /** Cache tag cleared by the /api/revalidate webhook when content is published. */

@@ -65,7 +65,11 @@ Each painting has one record that controls where it shows up:
 
 Go to `/studio` on the site and log in with the Sanity account. The menu has **Paintings**, **Collections**, **About page** and **Contact details**. Changes appear on the site within a minute of clicking **Publish** (instantly if the webhook below is set up). Paintings without a photo show a colorful placeholder.
 
-### One-time setup at [sanity.io/manage](https://www.sanity.io/manage) → project → API
+### One-time setup at [sanity.io/manage](https://www.sanity.io/manage)
+
+0. **Make the dataset private** (Datasets → `production` → Visibility → Private). Orders and commission requests contain customers' names, emails and addresses. The site then reads content with the server-side `SANITY_API_WRITE_TOKEN` (or a read-only `SANITY_API_READ_TOKEN`). **Set the token before switching to private, or the site will look empty.** Painting images stay viewable either way.
+
+Then under **API**:
 
 1. **CORS origins**: add each address the dashboard is opened from, with **Allow credentials** ticked:
    - `http://localhost:3000`
