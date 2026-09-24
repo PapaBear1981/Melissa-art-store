@@ -10,6 +10,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## Project notes
 
-- Pages read content only through `src/lib/data.ts`; keep it that way so the Sanity swap stays contained.
-- Prices are integers in cents (USD).
-- Content in `src/lib/sample-data.ts`, `src/lib/policies.ts`, the About page and commission pricing is placeholder.
+- Pages read content only through `src/lib/data.ts`, which loads from Sanity via `src/lib/content.ts`.
+- Prices are integers in cents (USD) in the app; the Sanity dashboard stores whole dollars and `content.ts` converts.
+- Public site pages live in the `src/app/(site)` route group; `/studio` sits outside it so the dashboard has no site header.
+- Placeholder content: `src/lib/sample-data.ts`, `src/lib/policies.ts`, default About text in `content.ts`, commission pricing.

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getArtwork, getCollectionArtworks, getCollections } from "@/lib/data";
+import { getCollectionArtworks, getCollectionCover, getCollections } from "@/lib/data";
 import { ArtworkImage } from "@/components/art/ArtworkImage";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { container } from "@/components/ui/styles";
@@ -15,7 +15,7 @@ export default async function CollectionsPage() {
   const details = await Promise.all(
     collections.map(async (c) => ({
       collection: c,
-      cover: await getArtwork(c.cover),
+      cover: await getCollectionCover(c),
       count: (await getCollectionArtworks(c.slug)).length,
     })),
   );

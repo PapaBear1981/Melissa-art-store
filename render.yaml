@@ -12,3 +12,9 @@ services:
         value: "22"
       - key: NEXT_PUBLIC_SITE_URL
         sync: false
+      - key: NEXT_PUBLIC_SANITY_PROJECT_ID
+        value: 8ii09o5j
+      - key: NEXT_PUBLIC_SANITY_DATASET
+        value: production
+      - key: SANITY_REVALIDATE_SECRET
+        generateValue: true

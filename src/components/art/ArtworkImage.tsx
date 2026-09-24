@@ -35,6 +35,8 @@ export function ArtworkImage({
           fill
           sizes={sizes}
           priority={priority}
+          placeholder={artwork.image.lqip ? "blur" : "empty"}
+          blurDataURL={artwork.image.lqip}
           className="object-cover"
         />
       ) : (

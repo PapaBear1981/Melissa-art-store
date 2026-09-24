@@ -12,6 +12,8 @@ export interface ArtImage {
   width: number;
   height: number;
   alt: string;
+  /** Tiny blurred preview shown while the full image loads. */
+  lqip?: string;
 }
 
 /**

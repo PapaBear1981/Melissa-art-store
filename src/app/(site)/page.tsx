@@ -1,6 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/config/site";
-import { getCollections, getFeaturedArtworks, getShopArtworks, getArtwork } from "@/lib/data";
+import { getAbout, getCollectionCover, getCollections, getFeaturedArtworks, getShopArtworks } from "@/lib/data";
 import { ArtworkImage } from "@/components/art/ArtworkImage";
 import { ArtworkCard } from "@/components/art/ArtworkCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -8,15 +9,16 @@ import { NewsletterForm } from "@/components/forms/NewsletterForm";
 import { btn, container } from "@/components/ui/styles";
 
 export default async function HomePage() {
-  const [featured, shop, collections] = await Promise.all([
+  const [featured, shop, collections, about] = await Promise.all([
     getFeaturedArtworks(),
     getShopArtworks(),
     getCollections(),
+    getAbout(),
   ]);
   const hero = featured[0];
   const heroSide = featured.slice(1, 3);
   const newWork = shop.filter((a) => a.original.status === "available").slice(0, 4);
-  const collectionCovers = await Promise.all(collections.map((c) => getArtwork(c.cover)));
+  const collectionCovers = await Promise.all(collections.map((c) => getCollectionCover(c)));
 
   return (
     <>
@@ -59,6 +61,7 @@ export default async function HomePage() {
       </section>
 
       {/* Collections */}
+      {collections.length > 0 && (
       <section className={`${container} py-16`}>
         <SectionHeading title="Collections" href="/collections" linkLabel="All collections" />
         <ul className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
@@ -82,8 +85,10 @@ export default async function HomePage() {
           })}
         </ul>
       </section>
+      )}
 
       {/* Available now */}
+      {newWork.length > 0 && (
       <section className="bg-paper py-16">
         <div className={container}>
           <SectionHeading title="Available now" href="/shop" linkLabel="Visit the shop" color="text-terracotta" />
@@ -96,6 +101,7 @@ export default async function HomePage() {
           </ul>
         </div>
       </section>
+      )}
 
       {/* Prints + Commissions */}
       <section className={`${container} grid gap-6 py-16 md:grid-cols-2`}>
@@ -120,14 +126,26 @@ export default async function HomePage() {
       {/* About teaser */}
       <section className={`${container} grid items-center gap-12 py-16 md:grid-cols-2`}>
         <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-[2rem] bg-gradient-to-br from-marigold via-terracotta to-plum">
-          <p className="absolute inset-0 flex items-center justify-center p-8 text-center font-display text-xl text-white/90">
-            Photo of {site.artistName} in the studio
-          </p>
+          {about.portrait ? (
+            <Image
+              src={about.portrait.src}
+              alt={about.portrait.alt}
+              fill
+              sizes="(min-width: 768px) 24rem, 100vw"
+              placeholder={about.portrait.lqip ? "blur" : "empty"}
+              blurDataURL={about.portrait.lqip}
+              className="object-cover"
+            />
+          ) : (
+            <p className="absolute inset-0 flex items-center justify-center p-8 text-center font-display text-xl text-white/90">
+              Photo of {site.artistName} in the studio
+            </p>
+          )}
         </div>
         <div>
           <SectionHeading title={`Hi, I'm ${site.artistName}`} color="text-teal" />
           <p className="text-lg text-muted">
-            I paint the moments that make me stop and look: late sun on the hills, a jar of fresh-cut flowers, the way two colors hum when they sit side by side.
+            {about.intro[0]}
           </p>
           <Link href="/about" className={`${btn("outline")} mt-8`}>About the artist</Link>
         </div>

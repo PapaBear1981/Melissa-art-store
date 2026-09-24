@@ -1,20 +1,24 @@
-import { sampleArtworks, sampleCollections } from "./sample-data";
+import { cache } from "react";
+import { loadAbout, loadArtworks, loadCollections, loadSiteSettings } from "./content";
 import type { Artwork, Collection } from "./types";
 
 /**
- * Data access layer. Every page reads content through these functions, so
- * swapping the sample data for the content dashboard (Sanity) only touches
- * this file.
+ * Data access layer. Every page reads content through these functions.
+ * Content comes from the Sanity dashboard (see ./content.ts).
  */
 
-const visible = () => sampleArtworks.filter((a) => !a.hidden);
+const allArtworks = cache(loadArtworks);
+const allCollections = cache(loadCollections);
+
+export const getAbout = cache(loadAbout);
+export const getSiteSettings = cache(loadSiteSettings);
 
 export async function getGalleryArtworks(): Promise<Artwork[]> {
-  return visible().sort((a, b) => b.year - a.year);
+  return [...(await allArtworks())].sort((a, b) => b.year - a.year);
 }
 
 export async function getArtwork(slug: string): Promise<Artwork | undefined> {
-  return visible().find((a) => a.slug === slug);
+  return (await allArtworks()).find((a) => a.slug === slug);
 }
 
 export function isOriginalForSale(a: Artwork): boolean {
@@ -29,22 +33,35 @@ export async function getShopArtworks(): Promise<Artwork[]> {
 }
 
 export async function getFeaturedArtworks(): Promise<Artwork[]> {
-  return (await getGalleryArtworks()).filter((a) => a.featured);
+  const all = await getGalleryArtworks();
+  const featured = all.filter((a) => a.featured);
+  // Fall back to the newest work so the home page is never empty.
+  return featured.length ? featured : all.slice(0, 3);
 }
 
 export async function getCollections(): Promise<Collection[]> {
-  return sampleCollections;
+  return allCollections();
 }
 
 export async function getCollection(
   slug: string,
 ): Promise<Collection | undefined> {
-  return sampleCollections.find((c) => c.slug === slug);
+  return (await allCollections()).find((c) => c.slug === slug);
 }
 
 export async function getCollectionArtworks(slug: string): Promise<Artwork[]> {
   return (await getGalleryArtworks()).filter((a) =>
     a.collections.includes(slug),
+  );
+}
+
+/** Cover painting for a collection: the chosen cover, or its newest painting. */
+export async function getCollectionCover(
+  collection: Collection,
+): Promise<Artwork | undefined> {
+  return (
+    (await getArtwork(collection.cover)) ??
+    (await getCollectionArtworks(collection.slug))[0]
   );
 }
 

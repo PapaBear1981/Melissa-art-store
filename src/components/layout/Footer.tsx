@@ -2,8 +2,10 @@ import Link from "next/link";
 import { footerNav, mainNav, site } from "@/config/site";
 import { container } from "@/components/ui/styles";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
+import { getSiteSettings } from "@/lib/data";
 
-export function Footer() {
+export async function Footer() {
+  const settings = await getSiteSettings();
   return (
     <footer className="mt-24 bg-ink text-cream">
       <div className={`${container} grid gap-12 py-16 md:grid-cols-12`}>
@@ -41,16 +43,20 @@ export function Footer() {
 
         <div className="text-sm md:col-span-3">
           <p className="font-semibold">Say hello</p>
-          <a href={`mailto:${site.email}`} className="mt-2 block text-cream/80 hover:text-marigold">
-            {site.email}
+          <a href={`mailto:${settings.email}`} className="mt-2 block text-cream/80 hover:text-marigold">
+            {settings.email}
           </a>
           <div className="mt-4 flex gap-4">
-            <a href={site.social.instagram} className="text-cream/80 hover:text-marigold" target="_blank" rel="noopener noreferrer">
-              Instagram
-            </a>
-            <a href={site.social.facebook} className="text-cream/80 hover:text-marigold" target="_blank" rel="noopener noreferrer">
-              Facebook
-            </a>
+            {settings.instagram && (
+              <a href={settings.instagram} className="text-cream/80 hover:text-marigold" target="_blank" rel="noopener noreferrer">
+                Instagram
+              </a>
+            )}
+            {settings.facebook && (
+              <a href={settings.facebook} className="text-cream/80 hover:text-marigold" target="_blank" rel="noopener noreferrer">
+                Facebook
+              </a>
+            )}
           </div>
           <p className="mt-6 text-cream/60">Shipping across the US and worldwide.</p>
         </div>

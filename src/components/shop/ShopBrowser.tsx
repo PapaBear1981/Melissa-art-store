@@ -80,7 +80,7 @@ export function ShopBrowser({ artworks }: { artworks: Artwork[] }) {
       {shown.length ? (
         <ArtworkGrid artworks={shown} />
       ) : (
-        <p className="py-16 text-center text-muted">Nothing matches those filters right now.</p>
+        <p className="py-16 text-center text-muted">{artworks.length ? "Nothing matches those filters right now." : "The shop is being stocked. Check back soon!"}</p>
       )}
     </>
   );

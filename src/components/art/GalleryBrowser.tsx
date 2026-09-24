@@ -49,7 +49,7 @@ export function GalleryBrowser({
       {shown.length ? (
         <ArtworkGrid artworks={shown} showPrice={false} />
       ) : (
-        <p className="py-16 text-center text-muted">No paintings match those filters yet.</p>
+        <p className="py-16 text-center text-muted">{artworks.length ? "No paintings match those filters." : "New paintings are on their way. Check back soon!"}</p>
       )}
     </>
   );
