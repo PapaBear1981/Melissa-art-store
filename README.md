@@ -4,6 +4,8 @@ Online store and portfolio for Melissa's paintings: original artwork, hand-signe
 
 > **Status: Phase 3 (payments).** Content is managed in the Sanity dashboard at `/studio`. Checkout runs on Stripe (test mode during development), paid originals are marked Sold automatically, and orders and form messages are emailed via Resend. Prints are hand-signed and fulfilled by Melissa; print orders arrive by email and in the dashboard.
 
+> 📝 **Open questions for Melissa** (prices, shipping, policies, wording) are tracked in [DECISIONS-FOR-MELISSA.md](DECISIONS-FOR-MELISSA.md).
+
 ## Tech stack
 
 - **Next.js 16** (App Router, TypeScript) + **Tailwind CSS 4**
