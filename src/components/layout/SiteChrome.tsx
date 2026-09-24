@@ -2,6 +2,7 @@ import { CartProvider } from "@/lib/cart/CartProvider";
 import { CartDrawer } from "@/components/shop/CartDrawer";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
+import { HideOnHome } from "./HideOnHome";
 
 /** Header, footer and cart around every public page (not the /studio dashboard). */
 export function SiteChrome({ children }: { children: React.ReactNode }) {
@@ -17,7 +18,9 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
       <main id="main" className="flex-1">
         {children}
       </main>
-      <Footer />
+      <HideOnHome>
+        <Footer />
+      </HideOnHome>
       <CartDrawer />
     </CartProvider>
   );
