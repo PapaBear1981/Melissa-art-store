@@ -173,10 +173,10 @@ export const artwork = defineType({
     defineField({
       name: "printsEnabled",
       title: "Sell prints of this painting",
-      description: "Needs a high-resolution scan. Sizes are matched to the painting's shape automatically.",
+      description: "Turn on once you have a high-resolution scan of this painting. Sizes are matched to the painting's shape automatically.",
       type: "boolean",
       group: "selling",
-      initialValue: true,
+      initialValue: false,
     }),
   ],
   orderings: [

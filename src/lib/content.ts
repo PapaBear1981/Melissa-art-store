@@ -72,7 +72,7 @@ function toArtwork(d: SanityArtwork): Artwork {
         ? { us: dollarsToCents(d.shipping!.us!), intl: dollarsToCents(d.shipping!.intl!) }
         : undefined,
     },
-    printsEnabled: d.printsEnabled ?? true,
+    printsEnabled: d.printsEnabled ?? false,
     image: toImage(d.image, title),
     placeholder: placeholderFor(d.slug),
   };
