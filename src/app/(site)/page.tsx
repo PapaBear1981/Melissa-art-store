@@ -109,7 +109,7 @@ export default async function HomePage() {
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-marigold">Fine art prints</p>
           <h2 className="mt-3 font-display text-3xl">Every painting, ready for your wall</h2>
           <p className="mt-4 text-white/85">
-            Archival paper or stretched canvas in sizes from 8″ to 40″, printed from professional scans and shipped worldwide.
+            Hand-signed prints on archival paper or stretched canvas, in sizes from 8″ to 40″, shipped worldwide.
           </p>
           <Link href="/shop" className={`${btn("outline")} mt-8 border-transparent`}>Shop prints</Link>
         </div>

@@ -23,7 +23,7 @@ export const policies: Policy[] = [
       {
         heading: "Prints and canvases",
         paragraphs: [
-          "Prints are made to order by our print partner and usually ship within 3–5 business days. They're produced at the print studio closest to you (US, UK, EU or Australia) for faster, cheaper delivery.",
+          "Each print is made by a local fine art printer, hand-signed, and shipped from the studio, usually within 1–2 weeks.",
         ],
       },
       {
@@ -56,7 +56,7 @@ export const policies: Policy[] = [
       {
         heading: "Who we share it with",
         paragraphs: [
-          "Only the services needed to run the shop: Stripe (payments), our print partner (to print and ship prints) and our email provider. We never sell your information.",
+          "Only the services needed to run the shop: Stripe (payments), our shipping carriers and our email provider. We never sell your information.",
         ],
       },
       {

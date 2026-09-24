@@ -1,8 +1,8 @@
 # Melissa's Art
 
-Online store and portfolio for Melissa's paintings: original artwork, fine art prints (print-on-demand), a gallery, collections, commissions and contact.
+Online store and portfolio for Melissa's paintings: original artwork, hand-signed fine art prints, a gallery, collections, commissions and contact.
 
-> **Status: Phase 3 (payments).** Content is managed in the Sanity dashboard at `/studio`. Checkout runs on Stripe (test mode during development), paid originals are marked Sold automatically, and orders and form messages are emailed via Resend. Automatic print fulfillment comes next (see the roadmap).
+> **Status: Phase 3 (payments).** Content is managed in the Sanity dashboard at `/studio`. Checkout runs on Stripe (test mode during development), paid originals are marked Sold automatically, and orders and form messages are emailed via Resend. Prints are hand-signed and fulfilled by Melissa; print orders arrive by email and in the dashboard.
 
 ## Tech stack
 
@@ -11,7 +11,6 @@ Online store and portfolio for Melissa's paintings: original artwork, fine art p
 - Forms use Next.js Server Actions with `zod` validation
 - **Sanity** content dashboard, embedded at `/studio` (project `8ii09o5j`, dataset `production`)
 - **Stripe Checkout** for payments, **Resend** for email
-- Planned: **Prodigi** (print-on-demand API)
 
 ## Running locally
 
@@ -92,7 +91,7 @@ Sample documents all have IDs starting with `sample-`, so deleting them never to
 Checkout uses Stripe's hosted page, so card details never touch this site. The customer picks **United States** or **Another country** in the cart; the server re-checks every price and availability from the dashboard, adds shipping, and opens Stripe Checkout (valid for 30 minutes).
 
 - **Originals:** shipping by size tier from `src/config/site.ts`, or the painting's custom shipping price. Pieces over 48″ without a custom price can't be bought online.
-- **Prints:** per-order rates in `src/lib/prints.ts` (`printShipping`). These are estimates, so check them against Prodigi's real costs.
+- **Prints:** per-order rates in `src/lib/prints.ts` (`printShipping`). These are estimates, so adjust them to real postage costs.
 - **Allowed countries:** `internationalShippingCountries` in `src/config/site.ts`.
 
 After payment, Stripe calls `/api/stripe/webhook`, which:
@@ -127,5 +126,5 @@ Nothing here is tied to one host, so the app can move to another Node host later
 1. ✅ **Foundation**: design system, all pages, cart, forms, sample content
 2. ✅ **Content dashboard**: Sanity Studio at `/studio` so Melissa can add paintings, collections, About page and contact details herself; images served from Sanity's CDN
 3. ✅ **Payments**: Stripe Checkout, server-side price checks, automatic "mark as Sold" via webhook, orders and commission requests in the dashboard, order and form emails (Resend)
-4. **Fulfillment**: Prodigi API for prints, shipping rates, Stripe Tax
+4. **Pricing check**: real print prices and postage, Stripe Tax decision
 5. **Launch polish**: SEO/social previews, accessibility pass, custom domain, Stripe live mode

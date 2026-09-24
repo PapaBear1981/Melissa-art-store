@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import type { Artwork } from "@/lib/types";
 import { formatDimensions, formatDimensionsCm, formatPrice } from "@/lib/format";
-import { printMaterials, printPartner, type PrintMaterial, type PrintOption } from "@/lib/prints";
+import { printFulfillment, printMaterials, type PrintMaterial, type PrintOption } from "@/lib/prints";
 import type { ShippingQuote } from "@/lib/pricing";
 import { useCart } from "@/lib/cart/CartProvider";
 import { toThumb } from "@/lib/cart/store";
@@ -247,8 +247,8 @@ function PrintOptions({ artwork, options }: { artwork: Artwork; options: PrintOp
       )}
 
       <ul className="space-y-1 text-sm text-muted">
-        <li>Printed to order from Melissa&apos;s professional high-resolution scan.</li>
-        <li>Made in {printPartner.productionDays}, then shipped from the nearest print studio (US, UK, EU or Australia).</li>
+        <li>Every print is made from a professional scan of the original and hand-signed by Melissa.</li>
+        <li>Printed locally and shipped from the studio in about {printFulfillment.turnaround}.</li>
         <li>Shipping to the US and worldwide is calculated at checkout.</li>
       </ul>
     </div>

@@ -1,14 +1,12 @@
 import type { Artwork } from "./types";
 
 /**
- * Print catalog. Prints are made to order by our print-on-demand partner
- * (Prodigi), which prints in the US, UK, EU and Australia and ships
- * worldwide. Retail prices are set here; production cost is charged by the
- * partner per order. All prices in cents (USD).
+ * Print catalog. Melissa has each print made by a local printer, signs it
+ * by hand, and ships it from the studio. All prices in cents (USD).
  */
-export const printPartner = {
-  name: "Prodigi",
-  productionDays: "3–5 business days",
+export const printFulfillment = {
+  // SAMPLE — confirm the real turnaround with Melissa.
+  turnaround: "1–2 weeks",
 } as const;
 
 export type PrintMaterial = "paper" | "canvas";
@@ -16,7 +14,7 @@ export type PrintMaterial = "paper" | "canvas";
 /**
  * What customers pay for print shipping, in cents: the first print at the
  * full rate, each additional print at the "extra" rate. Estimates: adjust
- * once real Prodigi shipping costs are known.
+ * to real postage costs from the studio.
  */
 export const printShipping: Record<PrintMaterial, { us: number; intl: number; usExtra: number; intlExtra: number }> = {
   paper: { us: 900, intl: 1900, usExtra: 300, intlExtra: 600 },
@@ -30,12 +28,12 @@ export const printMaterials: Record<
   paper: {
     label: "Fine art print",
     description:
-      "Giclée print on archival, museum-grade matte paper with a small white border for framing.",
+      "Giclée print on archival matte paper, hand-signed by Melissa, with a small white border for framing.",
   },
   canvas: {
     label: "Stretched canvas",
     description:
-      "Printed on gallery-quality canvas and stretched over a 1.5″ wooden frame. Ready to hang.",
+      "Printed on gallery-quality canvas, stretched and ready to hang. Hand-signed by Melissa.",
   },
 };
 

@@ -148,7 +148,7 @@ export async function fulfillCheckout(session: Stripe.Checkout.Session): Promise
       `Phone: ${customer?.phone ?? ""}`,
       "",
       items.some((i) => i.kind === "print")
-        ? "Prints in this order need to be sent to the print partner (automatic in a later update)."
+        ? "Prints in this order need to be printed, signed and shipped."
         : "",
       `Order details: ${site.url}/studio`,
     ]
@@ -177,7 +177,7 @@ export async function fulfillCheckout(session: Stripe.Checkout.Session): Promise
           ? "Original paintings are carefully packed and shipped from the studio within about 5 business days."
           : "",
         items.some((i) => i.kind === "print")
-          ? "Prints are made to order and usually ship within 3–5 business days."
+          ? "Prints are printed for you, hand-signed, and usually ship within 1–2 weeks."
           : "",
         "You'll get another email with tracking once your order ships.",
         "",

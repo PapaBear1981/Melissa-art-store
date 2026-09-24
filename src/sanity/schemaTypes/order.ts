@@ -12,7 +12,7 @@ export const order = defineType({
       options: {
         list: [
           { title: "New: needs packing", value: "new" },
-          { title: "Prints sent to print partner", value: "printing" },
+          { title: "Prints at the printer", value: "printing" },
           { title: "Shipped", value: "shipped" },
           { title: "Refunded / cancelled", value: "cancelled" },
         ],

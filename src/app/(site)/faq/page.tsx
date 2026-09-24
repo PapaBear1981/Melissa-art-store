@@ -12,9 +12,9 @@ const faqs: { group: string; items: { q: string; a: React.ReactNode }[] }[] = [
   {
     group: "Prints",
     items: [
-      { q: "How are prints made?", a: "Each print is made to order from a professional high-resolution scan of the original, using archival pigment inks on museum-grade paper or gallery canvas." },
+      { q: "How are prints made?", a: "Each print is made from a professional high-resolution scan of the original by a local fine art printer, using archival inks on museum-grade paper or gallery canvas. Melissa then signs every print by hand." },
       { q: "Are prints framed?", a: "Fine art prints are shipped unframed with a small white border, ready for a standard frame. Stretched canvases arrive ready to hang." },
-      { q: "How long do prints take?", a: "Prints are produced in 3–5 business days, then shipped from the nearest print studio. Delivery times depend on your location." },
+      { q: "How long do prints take?", a: "Prints are made for each order and usually ship from the studio within 1–2 weeks. Delivery time after that depends on your location." },
     ],
   },
   {

@@ -16,7 +16,7 @@ export default async function ShopPage() {
       <PageHeader
         eyebrow="Shop"
         title="Originals & prints"
-        intro="One-of-a-kind paintings from the studio, plus fine art prints and canvases made to order."
+        intro="One-of-a-kind paintings from the studio, plus hand-signed fine art prints and canvases."
       />
       <div className={container}>
         <ShopBrowser artworks={artworks} />

@@ -35,7 +35,7 @@ export const footerNav = [
 
 /**
  * Shipping estimates for ORIGINAL paintings, by the painting's longest side.
- * Prints are shipped by the print partner and priced separately.
+ * Print shipping is set separately in src/lib/prints.ts.
  * Prices in cents (USD).
  */
 export const originalShippingTiers = [
