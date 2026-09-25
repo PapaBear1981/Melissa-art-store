@@ -4,6 +4,8 @@ services:
     name: melissas-art
     runtime: node
     plan: free
+    # Deploy main only after the GitHub Actions checks pass.
+    autoDeployTrigger: checksPass
     buildCommand: npm ci && npm run build
     startCommand: npm start
     healthCheckPath: /

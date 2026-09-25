@@ -51,7 +51,7 @@ const priceTiers: { maxLongSide: number; paper: number; canvas: number }[] = [
   { maxLongSide: 16, paper: 6500, canvas: 12500 },
   { maxLongSide: 20, paper: 8500, canvas: 16500 },
   { maxLongSide: 30, paper: 12500, canvas: 22500 },
-  { maxLongSide: 40, paper: 17500, canvas: 32000 },
+  { maxLongSide: Infinity, paper: 17500, canvas: 32000 },
 ];
 
 export interface PrintOption {
@@ -63,10 +63,7 @@ export interface PrintOption {
 }
 
 function priceFor(material: PrintMaterial, longSide: number): number {
-  const tier =
-    priceTiers.find((t) => longSide <= t.maxLongSide) ??
-    priceTiers[priceTiers.length - 1];
-  return tier[material];
+  return priceTiers.find((t) => longSide <= t.maxLongSide)![material];
 }
 
 /** Every print option available for an artwork, matched to its proportions. */

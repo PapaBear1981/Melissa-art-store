@@ -45,9 +45,12 @@ function read(): CartItem[] {
 
 function write(items: CartItem[]) {
   cachedItems = items;
-  cachedRaw = JSON.stringify(items);
+  const raw = JSON.stringify(items);
   try {
-    window.localStorage.setItem(STORAGE_KEY, cachedRaw);
+    window.localStorage.setItem(STORAGE_KEY, raw);
+    // Only once saved: otherwise read() would see the old stored value and
+    // replace the in-memory cart with it.
+    cachedRaw = raw;
   } catch {
     // Storage unavailable (private mode) — cart still works for this visit.
   }
