@@ -64,7 +64,7 @@ export default async function ArtworkPage({ params }: PageProps<"/art/[slug]">) 
                   {inCollections.map((c, i) => (
                     <span key={c.slug}>
                       {i > 0 && ", "}
-                      <Link href={`/collections/${c.slug}`} className="text-teal underline-offset-4 hover:underline">
+                      <Link href={`/gallery/${c.slug}`} className="text-teal underline-offset-4 hover:underline">
                         {c.title}
                       </Link>
                     </span>

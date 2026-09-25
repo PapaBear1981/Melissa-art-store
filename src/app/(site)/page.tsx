@@ -63,13 +63,13 @@ export default async function HomePage() {
       {/* Collections */}
       {collections.length > 0 && (
       <section className={`${container} py-16`}>
-        <SectionHeading title="Collections" href="/collections" linkLabel="All collections" />
+        <SectionHeading title="Collections" href="/gallery#collections" linkLabel="All collections" />
         <ul className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
           {collections.map((c, i) => {
             const cover = collectionCovers[i];
             return (
               <li key={c.slug}>
-                <Link href={`/collections/${c.slug}`} className="group block">
+                <Link href={`/gallery/${c.slug}`} className="group block">
                   <div className="aspect-[4/5] overflow-hidden rounded-xl">
                     {cover && (
                       <div className="h-full w-full transition duration-500 group-hover:scale-105">
