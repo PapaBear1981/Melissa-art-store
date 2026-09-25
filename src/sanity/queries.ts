@@ -44,10 +44,16 @@ export const collectionsQuery = defineQuery(`
 
 export const aboutPageQuery = defineQuery(`
   *[_id == "aboutPage"][0]{
+    heading,
     intro,
+    statementTitle,
     statement,
+    studioTitle,
     studio,
+    milestonesTitle,
     milestones[]{ year, text },
+    buttons[]{ label, link },
+    seoDescription,
     "portrait": portrait{
       alt,
       "url": asset->url,

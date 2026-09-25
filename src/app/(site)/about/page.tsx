@@ -6,17 +6,17 @@ import { getAbout } from "@/lib/data";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { btn, container } from "@/components/ui/styles";
 
-export const metadata: Metadata = {
-  title: "About the artist",
-  description: `Meet ${site.artistName}, the painter behind ${site.name}.`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const about = await getAbout();
+  return { title: "About the artist", description: about.seoDescription };
+}
 
 export default async function AboutPage() {
   const about = await getAbout();
 
   return (
     <>
-      <PageHeader eyebrow="About" title={`Hi, I'm ${site.artistName}.`} />
+      <PageHeader eyebrow="About" title={about.heading} />
       <div className={`${container} grid gap-12 lg:grid-cols-12`}>
         <div className="lg:col-span-5">
           <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-gradient-to-br from-marigold via-terracotta to-plum">
@@ -44,21 +44,21 @@ export default async function AboutPage() {
 
           {about.statement.length > 0 && (
             <>
-              <h2>Artist statement</h2>
+              <h2>{about.statementTitle}</h2>
               {about.statement.map((p) => <p key={p}>{p}</p>)}
             </>
           )}
 
           {about.studio.length > 0 && (
             <>
-              <h2>In the studio</h2>
+              <h2>{about.studioTitle}</h2>
               {about.studio.map((p) => <p key={p}>{p}</p>)}
             </>
           )}
 
           {about.milestones.length > 0 && (
             <>
-              <h2>Exhibitions &amp; news</h2>
+              <h2>{about.milestonesTitle}</h2>
               <ul>
                 {about.milestones.map((m) => (
                   <li key={`${m.year}-${m.text}`}>
@@ -71,8 +71,11 @@ export default async function AboutPage() {
           )}
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/gallery" className={btn("primary")}>See the work</Link>
-            <Link href="/commissions" className={btn("outline")}>Commission a painting</Link>
+            {about.buttons.map((b, i) => (
+              <Link key={`${b.link}-${b.label}`} href={b.link} className={btn(i === 0 ? "primary" : "outline")}>
+                {b.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>
