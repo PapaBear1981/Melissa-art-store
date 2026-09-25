@@ -11,7 +11,10 @@ export const collection = defineType({
       title: "Web address",
       type: "slug",
       options: { source: "title", maxLength: 80 },
-      validation: (r) => r.required(),
+      validation: (r) =>
+        r.required().custom((slug) =>
+          slug?.current === "archive" ? "“archive” is taken by the Archive page. Pick another web address." : true,
+        ),
     }),
     defineField({
       name: "summary",

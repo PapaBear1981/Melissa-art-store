@@ -9,6 +9,7 @@ const artworkFields = /* groq */ `
   heightIn,
   description,
   featured,
+  archived,
   status,
   saleMode,
   price,

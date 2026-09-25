@@ -38,6 +38,8 @@ export interface Artwork {
   featured?: boolean;
   /** Draft pieces are hidden everywhere. */
   hidden?: boolean;
+  /** Retired from the gallery and shop; still shown in the Archive under its year. */
+  archived?: boolean;
   original: {
     status: OriginalStatus;
     saleMode: SaleMode;
