@@ -3,9 +3,12 @@ import { expect, test } from "./fixtures";
 test("contact form checks fields, then sends", async ({ page: tab }) => {
   await tab.goto("/contact");
   const page = tab.getByRole("main");
+  await page.getByLabel("What's this about?").selectOption("press");
   await page.getByRole("button", { name: "Send message" }).click();
   await expect(page.getByRole("alert").filter({ hasText: "Please check the highlighted fields." })).toBeVisible();
   await expect(page.getByLabel("Your name")).toHaveAttribute("aria-invalid", "true");
+  // The chosen topic survives the failed submit.
+  await expect(page.getByLabel("What's this about?")).toHaveValue("press");
 
   await page.getByLabel("Your name").fill("Test Buyer");
   await page.getByLabel("Email", { exact: true }).fill("buyer@example.com");

@@ -24,7 +24,21 @@ npm run lint
 npm run build && npm start
 ```
 
-Requires Node.js 20.9 or newer.
+Requires Node.js 20.9 or newer (the tests need Node 22).
+
+## Testing & CI
+
+```bash
+npm test                 # unit tests (Vitest)
+npm run test:coverage    # same, and fails below 100% coverage
+npm run typecheck
+npm run build:e2e && npm run test:e2e   # browser tests (Playwright) on the sample paintings
+```
+
+- Unit tests sit next to the code they test (`*.test.ts(x)`). Coverage must stay at 100% for everything except async pages and layouts, which Vitest can't render; the browser tests in `e2e/` load every page instead.
+- The browser tests use a build with `USE_SAMPLE_CONTENT=true`, so they need no Sanity, Stripe or Resend keys. Checkout stops at "isn't switched on yet" and emails are logged instead of sent.
+- GitHub Actions (`.github/workflows/ci.yml`) runs lint, typecheck, unit tests with coverage, the build and the browser tests on every pull request and every push to `main`.
+- Render deploys `main` only once those checks pass (`autoDeployTrigger: checksPass` in `render.yaml`).
 
 ## Where things live
 

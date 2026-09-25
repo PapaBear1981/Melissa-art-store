@@ -13,8 +13,8 @@ export function CartDrawer() {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
+    // The <dialog> is always rendered, so the ref is set by the time effects run.
+    const dialog = dialogRef.current!;
     if (isOpen && !dialog.open) dialog.showModal();
     if (!isOpen && dialog.open) dialog.close();
   }, [isOpen]);
