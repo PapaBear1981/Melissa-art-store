@@ -66,6 +66,12 @@ describe("with sample content", () => {
     const about = await loadAbout();
     expect(about.intro).toHaveLength(2);
     expect(about.milestones[0].year).toBe("2025");
+    expect(about.heading).toBe("Hi, I'm Melissa.");
+    expect(about.statementTitle).toBe("Artist statement");
+    expect(about.buttons).toEqual([
+      { label: "See the work", link: "/gallery" },
+      { label: "Commission a painting", link: "/commissions" },
+    ]);
     expect(about.portrait).toBeUndefined();
     expect(sanityFetch).not.toHaveBeenCalled();
   });
@@ -260,6 +266,47 @@ describe("loadAbout from Sanity", () => {
       { year: "2020", text: "Show" },
       { year: "", text: "Undated news" },
     ]);
+  });
+
+  it("uses the headings, buttons and search description from the dashboard", async () => {
+    const { loadAbout } = await loadContent(false);
+    sanityFetch.mockResolvedValue({
+      heading: "Welcome to my studio",
+      seoDescription: "Colorful paintings from Asheville.",
+      statementTitle: "Why I paint",
+      studioTitle: "  How I work ",
+      milestonesTitle: "Shows",
+      buttons: [{ label: "Shop prints", link: "/shop" }, { label: "Say hello", link: "/contact" }],
+    });
+    const about = await loadAbout();
+    expect(about).toMatchObject({
+      heading: "Welcome to my studio",
+      seoDescription: "Colorful paintings from Asheville.",
+      statementTitle: "Why I paint",
+      studioTitle: "How I work",
+      milestonesTitle: "Shows",
+      buttons: [{ label: "Shop prints", link: "/shop" }, { label: "Say hello", link: "/contact" }],
+    });
+  });
+
+  it("falls back to the default headings and buttons when they're blank", async () => {
+    const { loadAbout: loadDefaults } = await loadContent(true);
+    const defaults = await loadDefaults();
+    const { loadAbout } = await loadContent(false);
+    sanityFetch.mockResolvedValue({ heading: "  ", statementTitle: "", buttons: [{ label: "No link" }, { link: "/shop" }] });
+    const about = await loadAbout();
+    expect(about.heading).toBe(defaults.heading);
+    expect(about.statementTitle).toBe(defaults.statementTitle);
+    expect(about.seoDescription).toBe(defaults.seoDescription);
+    expect(about.buttons).toEqual(defaults.buttons);
+  });
+
+  it("shows at most two buttons", async () => {
+    const { loadAbout } = await loadContent(false);
+    sanityFetch.mockResolvedValue({
+      buttons: [{ label: "A", link: "/a" }, { label: "B", link: "/b" }, { label: "C", link: "/c" }],
+    });
+    expect((await loadAbout()).buttons.map((b) => b.label)).toEqual(["A", "B"]);
   });
 
   it("keeps an empty milestones list instead of showing the sample ones", async () => {

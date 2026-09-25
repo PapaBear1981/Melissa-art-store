@@ -104,15 +104,30 @@ export async function loadCollections(): Promise<Collection[]> {
 }
 
 export interface AboutContent {
+  heading: string;
+  seoDescription: string;
   intro: string[];
+  statementTitle: string;
   statement: string[];
+  studioTitle: string;
   studio: string[];
+  milestonesTitle: string;
   milestones: { year: string; text: string }[];
+  buttons: { label: string; link: string }[];
   portrait?: ArtImage;
 }
 
 // SAMPLE CONTENT — shown until the About page is filled in on the dashboard.
 const defaultAbout: AboutContent = {
+  heading: `Hi, I'm ${site.artistName}.`,
+  seoDescription: `Meet ${site.artistName}, the painter behind ${site.name}.`,
+  statementTitle: "Artist statement",
+  studioTitle: "In the studio",
+  milestonesTitle: "Exhibitions & news",
+  buttons: [
+    { label: "See the work", link: "/gallery" },
+    { label: "Commission a painting", link: "/commissions" },
+  ],
   intro: [
     "I'm a painter who can't stay away from color. My work moves between landscapes, loose florals and pure abstraction, but it always starts with the same thing: a feeling of warmth I want to hold onto.",
     "Most of my paintings are made in acrylic and oil, sometimes with oil pastel worked into the top layers. I paint everything from small 12-inch studies to five-foot canvases that fill a wall.",
@@ -132,15 +147,31 @@ const defaultAbout: AboutContent = {
 export async function loadAbout(): Promise<AboutContent> {
   if (useSample) return defaultAbout;
   const d = await sanityFetch<{
+    heading?: string;
+    seoDescription?: string;
     intro?: string;
+    statementTitle?: string;
     statement?: string;
+    studioTitle?: string;
     studio?: string;
+    milestonesTitle?: string;
     milestones?: { year?: string; text?: string }[] | null;
+    buttons?: { label?: string; link?: string }[] | null;
     portrait?: SanityImage;
   } | null>(aboutPageQuery);
   if (!d) return defaultAbout;
   const or = (text: string | undefined, fallback: string[]) => (text ? paragraphs(text) : fallback);
+  const line = (text: string | undefined, fallback: string) => text?.trim() || fallback;
+  const buttons = (d.buttons ?? [])
+    .filter((b) => b.label?.trim() && b.link?.trim())
+    .map((b) => ({ label: b.label!.trim(), link: b.link!.trim() }));
   return {
+    heading: line(d.heading, defaultAbout.heading),
+    seoDescription: line(d.seoDescription, defaultAbout.seoDescription),
+    statementTitle: line(d.statementTitle, defaultAbout.statementTitle),
+    studioTitle: line(d.studioTitle, defaultAbout.studioTitle),
+    milestonesTitle: line(d.milestonesTitle, defaultAbout.milestonesTitle),
+    buttons: buttons.length ? buttons.slice(0, 2) : defaultAbout.buttons,
     intro: or(d.intro, defaultAbout.intro),
     statement: or(d.statement, defaultAbout.statement),
     studio: or(d.studio, defaultAbout.studio),
