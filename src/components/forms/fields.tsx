@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { input, label as labelClass } from "@/components/ui/styles";
 import type { FormState } from "@/lib/forms/types";
 
@@ -39,7 +40,13 @@ export function Field({ name, label, state, hint, required, children, ...rest }:
         {label}
         {!required && <span className="font-normal text-muted"> (optional)</span>}
       </label>
-      {children ? children(controlProps) : <input {...controlProps} {...rest} />}
+      {children ? (
+        // A <select> only reads defaultValue when it mounts, so remount it to
+        // show the value sent back after a failed submit.
+        <Fragment key={controlProps.defaultValue}>{children(controlProps)}</Fragment>
+      ) : (
+        <input {...controlProps} {...rest} />
+      )}
       {hint && (
         <p id={`${id}-hint`} className="mt-1.5 text-xs text-muted">
           {hint}

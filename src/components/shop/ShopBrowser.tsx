@@ -19,8 +19,7 @@ const sizeOf = (a: Artwork): Exclude<Size, "all"> => {
 
 /** Comparable price: the original's price when for sale, else the lowest print. */
 const sortPrice = (a: Artwork, kind: Kind) => {
-  const original = a.original.status === "available" ? a.original.price : undefined;
-  if (kind === "prints") return lowestPrintPrice(a) ?? Infinity;
+  const original = kind !== "prints" && a.original.status === "available" ? a.original.price : undefined;
   return original ?? lowestPrintPrice(a) ?? Infinity;
 };
 
@@ -33,7 +32,8 @@ export function ShopBrowser({ artworks }: { artworks: Artwork[] }) {
     .filter((a) => {
       if (kind === "originals" && a.original.status !== "available") return false;
       if (kind === "prints" && !a.printsEnabled) return false;
-      if (size !== "all" && sizeOf(a) !== size) return false;
+      // The size filter is for originals; it's hidden while browsing prints.
+      if (kind !== "prints" && size !== "all" && sizeOf(a) !== size) return false;
       return true;
     })
     .sort((a, b) => {

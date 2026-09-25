@@ -170,22 +170,21 @@ export async function fulfillCheckout(session: Stripe.Checkout.Session): Promise
         shippingLine,
         `Total: ${formatPrice(total)}`,
         "",
-        "Shipping to:",
-        address,
-        "",
+        ...(address ? ["Shipping to:", address, ""] : []),
         items.some((i) => i.kind === "original")
           ? "Original paintings are carefully packed and shipped from the studio within about 5 business days."
-          : "",
+          : undefined,
         items.some((i) => i.kind === "print")
           ? "Prints are printed for you, hand-signed, and usually ship within 1–2 weeks."
-          : "",
+          : undefined,
         "You'll get another email with tracking once your order ships.",
         "",
         `Questions? Just reply to this email.`,
         "",
         `With gratitude,\n${site.artistName}`,
       ]
-        .filter(Boolean)
+        // Keep the "" entries: they're the blank lines between paragraphs.
+        .filter((l): l is string => l !== undefined)
         .join("\n"),
     });
   }
