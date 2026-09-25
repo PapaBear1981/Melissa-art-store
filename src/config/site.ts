@@ -23,7 +23,6 @@ export const site = {
 
 export const mainNav = [
   { href: "/gallery", label: "Gallery" },
-  { href: "/collections", label: "Collections" },
   { href: "/shop", label: "Shop" },
   { href: "/commissions", label: "Commissions" },
   { href: "/about", label: "About" },

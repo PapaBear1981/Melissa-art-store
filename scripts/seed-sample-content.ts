@@ -54,6 +54,7 @@ async function seed() {
       description: a.description.join("\n\n"),
       collections: a.collections.map((c) => ref(`sample-collection-${c}`, c)),
       featured: a.featured ?? false,
+      archived: a.archived ?? false,
       status: a.original.status,
       saleMode: a.original.saleMode,
       price: a.original.price ? a.original.price / 100 : undefined,

@@ -10,12 +10,12 @@ export async function generateStaticParams() {
   return (await getCollections()).map((c) => ({ slug: c.slug }));
 }
 
-export async function generateMetadata({ params }: PageProps<"/collections/[slug]">): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<"/gallery/[slug]">): Promise<Metadata> {
   const collection = await getCollection((await params).slug);
   return collection ? { title: collection.title, description: collection.summary } : {};
 }
 
-export default async function CollectionPage({ params }: PageProps<"/collections/[slug]">) {
+export default async function CollectionPage({ params }: PageProps<"/gallery/[slug]">) {
   const { slug } = await params;
   const collection = await getCollection(slug);
   if (!collection) notFound();
@@ -24,7 +24,7 @@ export default async function CollectionPage({ params }: PageProps<"/collections
   return (
     <>
       <nav aria-label="Breadcrumb" className={`${container} pt-8 text-sm text-muted`}>
-        <Link href="/collections" className="hover:text-terracotta-dark">Collections</Link> / {collection.title}
+        <Link href="/gallery" className="hover:text-terracotta-dark">Gallery</Link> / {collection.title}
       </nav>
       <PageHeader
         eyebrow="Collection"

@@ -13,8 +13,27 @@ const allCollections = cache(loadCollections);
 export const getAbout = cache(loadAbout);
 export const getSiteSettings = cache(loadSiteSettings);
 
-export async function getGalleryArtworks(): Promise<Artwork[]> {
+/** Every painting, archived ones included, newest first. */
+async function everyArtwork(): Promise<Artwork[]> {
   return [...(await allArtworks())].sort((a, b) => b.year - a.year);
+}
+
+/** Current work: everything except pieces moved to the Archive. */
+export async function getGalleryArtworks(): Promise<Artwork[]> {
+  return (await everyArtwork()).filter((a) => !a.archived);
+}
+
+/** Every painting with its own page, archived ones included. */
+export const getAllArtworks = everyArtwork;
+
+/** Years that have at least one painting, newest first. */
+export async function getArchiveYears(): Promise<number[]> {
+  return [...new Set((await everyArtwork()).map((a) => a.year))];
+}
+
+/** Everything painted in a given year, current and archived. */
+export async function getArchiveYear(year: number): Promise<Artwork[]> {
+  return (await everyArtwork()).filter((a) => a.year === year);
 }
 
 export async function getArtwork(slug: string): Promise<Artwork | undefined> {
@@ -76,4 +95,10 @@ export async function getRelatedArtworks(
         a.collections.some((c) => artwork.collections.includes(c)),
     )
     .slice(0, limit);
+}
+
+/** Cover for the Archive card: the newest archived piece, else the oldest painting. */
+export async function getArchiveCover(): Promise<Artwork | undefined> {
+  const all = await everyArtwork();
+  return all.find((a) => a.archived) ?? all.at(-1);
 }

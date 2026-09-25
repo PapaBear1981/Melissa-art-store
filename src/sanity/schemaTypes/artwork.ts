@@ -95,6 +95,14 @@ export const artwork = defineType({
       group: "details",
       initialValue: false,
     }),
+    defineField({
+      name: "archived",
+      title: "Move to the Archive",
+      description: "Takes it out of the gallery, shop and collections so they stay focused on current work. It keeps its own page and lives on in the Archive under its year.",
+      type: "boolean",
+      group: "details",
+      initialValue: false,
+    }),
 
     // ---- Selling ----
     defineField({
@@ -184,10 +192,10 @@ export const artwork = defineType({
     { title: "Title", name: "title", by: [{ field: "title", direction: "asc" }] },
   ],
   preview: {
-    select: { title: "title", year: "year", status: "status", media: "image" },
-    prepare({ title, year, status, media }) {
+    select: { title: "title", year: "year", status: "status", archived: "archived", media: "image" },
+    prepare({ title, year, status, archived, media }) {
       const label = status === "sold" ? " · Sold" : status === "not-for-sale" ? " · Not for sale" : "";
-      return { title, subtitle: `${year ?? ""}${label}`, media };
+      return { title, subtitle: `${year ?? ""}${label}${archived ? " · Archived" : ""}`, media };
     },
   },
 });

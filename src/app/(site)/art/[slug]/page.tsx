@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getArtwork, getCollections, getGalleryArtworks, getRelatedArtworks } from "@/lib/data";
+import { getAllArtworks, getArtwork, getCollections, getRelatedArtworks } from "@/lib/data";
 import { formatDimensions, formatDimensionsCm } from "@/lib/format";
 import { getPrintOptions } from "@/lib/prints";
 import { originalShipping } from "@/lib/pricing";
@@ -12,7 +12,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { container } from "@/components/ui/styles";
 
 export async function generateStaticParams() {
-  return (await getGalleryArtworks()).map((a) => ({ slug: a.slug }));
+  return (await getAllArtworks()).map((a) => ({ slug: a.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps<"/art/[slug]">): Promise<Metadata> {
@@ -35,7 +35,14 @@ export default async function ArtworkPage({ params }: PageProps<"/art/[slug]">) 
   return (
     <>
       <nav aria-label="Breadcrumb" className={`${container} pt-8 text-sm text-muted`}>
-        <Link href="/gallery" className="hover:text-terracotta-dark">Gallery</Link> / {artwork.title}
+        <Link href="/gallery" className="hover:text-terracotta-dark">Gallery</Link> /{" "}
+        {artwork.archived && (
+          <>
+            <Link href="/gallery/archive" className="hover:text-terracotta-dark">Archive</Link> /{" "}
+            <Link href={`/gallery/archive/${artwork.year}`} className="hover:text-terracotta-dark">{artwork.year}</Link> /{" "}
+          </>
+        )}
+        {artwork.title}
       </nav>
 
       <div className={`${container} grid gap-12 py-8 lg:grid-cols-12 lg:gap-16`}>
@@ -49,7 +56,9 @@ export default async function ArtworkPage({ params }: PageProps<"/art/[slug]">) 
           <h1 className="font-display text-4xl sm:text-5xl">{artwork.title}</h1>
           <dl className="mt-4 grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-sm">
             <dt className="text-muted">Year</dt>
-            <dd>{artwork.year}</dd>
+            <dd>
+              <Link href={`/gallery/archive/${artwork.year}`} className="text-teal underline-offset-4 hover:underline">{artwork.year}</Link>
+            </dd>
             <dt className="text-muted">Medium</dt>
             <dd>{artwork.medium}</dd>
             <dt className="text-muted">Size</dt>
@@ -64,7 +73,7 @@ export default async function ArtworkPage({ params }: PageProps<"/art/[slug]">) 
                   {inCollections.map((c, i) => (
                     <span key={c.slug}>
                       {i > 0 && ", "}
-                      <Link href={`/collections/${c.slug}`} className="text-teal underline-offset-4 hover:underline">
+                      <Link href={`/gallery/${c.slug}`} className="text-teal underline-offset-4 hover:underline">
                         {c.title}
                       </Link>
                     </span>

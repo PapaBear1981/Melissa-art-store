@@ -23,6 +23,7 @@ type SanityArtwork = {
   heightIn?: number;
   description?: string;
   featured?: boolean;
+  archived?: boolean;
   status?: OriginalStatus;
   saleMode?: SaleMode;
   price?: number;
@@ -64,6 +65,7 @@ function toArtwork(d: SanityArtwork): Artwork {
     description: paragraphs(d.description),
     collections: (d.collections ?? []).filter((c): c is string => Boolean(c)),
     featured: d.featured ?? false,
+    archived: d.archived ?? false,
     original: {
       status: d.status ?? "available",
       saleMode: d.saleMode ?? "buy-now",

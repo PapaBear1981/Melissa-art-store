@@ -198,6 +198,7 @@ export const sampleArtworks: Artwork[] = [
     heightIn: 20,
     description: ["A cactus flower opening against a hot pink sky."],
     collections: ["garden-party", "color-studies"],
+    archived: true,
     original: { status: "not-for-sale", saleMode: "buy-now" },
     printsEnabled: true,
     placeholder: { seed: 101, palette: palettes.sunset, style: "floral" },
